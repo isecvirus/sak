@@ -1,0 +1,7 @@
+test*.py
+*.venv
+.idea
+currency
+math
+network
+time
