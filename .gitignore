@@ -1,8 +1,9 @@
-test*.py
+*.py
 *.venv
 .idea
+*.env
 currency
-math
-network
 time
 privacy
+SECURITY.md
+cipher/vigenere.py

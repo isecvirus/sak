@@ -1,4 +1,4 @@
-# entrpy (v1.0.0)
+# binary (v1.0.0)
 
 """
 Copyright (c) virus, All rights reserved.
@@ -25,31 +25,18 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-import math
-from collections import defaultdict
-from typing import Any
 
+class Binary:
+    def __init__(self, value: int):
+        self.value: int = value
 
-class Shannon:
-    def __init__(self, data: bytes | str):
-        self.data: bytes | str = data
+    def valid(self) -> bool:
+        return all([set(str(o)) <= set("01") for o in str(self.value)])
 
-    def get(self, fraction: int = 16) -> float:
-        """
-        Get the entropy value of the provided data
-        :param fraction:
-        :return:
-        """
+    def decimal(self) -> int:
+        integer: int = 0
 
-        charCount: defaultdict[Any, int] = defaultdict(int)
-        entropy: float = 0.0
-        data: bytes | str = self.data
+        for digit in str(self.value):
+            integer: int = ((integer * 2) + int(digit))
 
-        for c in data:
-            charCount[c] += 1
-
-        for count in charCount.values():
-            freq: float = count / len(data)
-            entropy -= freq * (math.log(freq) / math.log(2))
-
-        return round(entropy, fraction)
+        return integer

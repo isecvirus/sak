@@ -1,4 +1,4 @@
-# caesar (v1.0.0)
+# caesar (v1.1.0)
 
 """
 Copyright (c) virus, All rights reserved.
@@ -25,8 +25,6 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-from typing import NoReturn
-
 
 # Mono-alphabetic
 class Caesar:
@@ -34,12 +32,6 @@ class Caesar:
 
     def __init__(self, chars: str = CHARS):
         self.chars: str = chars
-
-    def set_chars(self, chars: str) -> NoReturn:
-        self.chars = chars
-
-    def get_chars(self) -> str:
-        return self.chars
 
     def encrypt(self, message: str, shift: int = 3) -> str:
         cipher: str = ""

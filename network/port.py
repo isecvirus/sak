@@ -1,4 +1,4 @@
-# entrpy (v1.0.0)
+# port (v1.0.0)
 
 """
 Copyright (c) virus, All rights reserved.
@@ -25,31 +25,13 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-import math
-from collections import defaultdict
-from typing import Any
 
+class Port:
+    MIN_PORT: int = 0
+    MAX_PORT: int = ((2 ** 16) - 1)
 
-class Shannon:
-    def __init__(self, data: bytes | str):
-        self.data: bytes | str = data
+    def __init__(self, number: int):
+        self.number: int = number
 
-    def get(self, fraction: int = 16) -> float:
-        """
-        Get the entropy value of the provided data
-        :param fraction:
-        :return:
-        """
-
-        charCount: defaultdict[Any, int] = defaultdict(int)
-        entropy: float = 0.0
-        data: bytes | str = self.data
-
-        for c in data:
-            charCount[c] += 1
-
-        for count in charCount.values():
-            freq: float = count / len(data)
-            entropy -= freq * (math.log(freq) / math.log(2))
-
-        return round(entropy, fraction)
+    def valid(self):
+        return self.MIN_PORT <= self.number <= self.MAX_PORT
