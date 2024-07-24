@@ -1,9 +1,13 @@
-*.py
+test*.py
 *.venv
 .idea
 *.env
 currency
 time
 privacy
+security/otp.py
+ctf
 SECURITY.md
 cipher/vigenere.py
+*/__pycache__
+__pycache__

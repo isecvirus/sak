@@ -1,4 +1,4 @@
-# password (v1.2.0)
+# password (v1.3.0)
 
 """
 Copyright (c) virus, All rights reserved.
@@ -45,17 +45,5 @@ class Generate:
         self.chars: bytes | str = chars
         self.separator: bytes | str = separator
 
-    def set_chars(self, chars: bytes | str) -> NoReturn:
-        self.chars = chars
-
-    def get_chars(self) -> bytes | str:
-        return self.chars
-
-    def set_separator(self, separator: bytes | str) -> NoReturn:
-        self.separator = separator
-
-    def get_separator(self) -> bytes | str:
-        return self.separator
-
     def new(self, length: int) -> bytes | str:
-        return self.get_separator().join([random.choice(self.get_chars()) for _ in range(length)])
+        return ''.join([random.choice(self.chars) for _ in range(length)])

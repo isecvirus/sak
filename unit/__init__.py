@@ -1,14 +1,5 @@
 # unit/__init__.py
 # written by virus
-# v1.0.0
+# v1.1.0
 
-from .bit import *
-from .byte import *
-from .kilobyte import *
-from .megabyte import *
-from .gigabyte import *
-from .terabyte import *
-from .petabyte import *
-from .exabyte import *
-from .zettabyte import *
-from .yottabyte import *
+from .computer import Bit, Byte, Kilobyte, Megabyte, Gigabyte, Terabyte, Petabyte, Exabyte, Zettabyte, Yottabyte

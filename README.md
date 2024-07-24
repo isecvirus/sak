@@ -8,6 +8,7 @@ SAK (Saudi Army Knife) - ToolKit for CyberSecurity Penetration Testers
 |  1.0.0  |   1   |   0   |   0   | 2024-07-10 |
 |  1.1.0  |   0   |   3   |   0   | 2024-07-11 |
 |  1.2.0  |   0   |  17   |   0   | 2024-07-12 |
+|  1.2.0  |   0   |  17   |   0   | 2024-07-12 |
 
 `Major` the number of noticeable changes, e.g. structure of the library's hierarchical
 

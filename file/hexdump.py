@@ -1,4 +1,4 @@
-# megabyte (v1.0.0)
+# hexdump (v1.0.0)
 
 """
 Copyright (c) virus, All rights reserved.
@@ -25,61 +25,31 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-
-class Megabyte(float):
-    def __init__(self, n: float | int):
-        self.n: float | int = n
-
-    def bit(self):
-        return self * 8_000_000
-
-    def byte(self):
-        return self * 1_000_000
-
-    def kilobit(self):
-        return self * 8_000
-
-    def kilobyte(self):
-        return self * 1_000
-
-    def megabit(self):
-        return self * 8
-
-    def gigabit(self):
-        return self / 125
-
-    def gigabyte(self):
-        return self / 1_000
-
-    def terabit(self):
-        return self / 125_000
-
-    def terabyte(self):
-        return self / 1_000_000
-
-    def petabit(self):
-        return self / 125_000_000
-
-    def petabyte(self):
-        return self / 1_000_000_000
-
-    def exabit(self):
-        return self / 125_000_000_000
-
-    def exabyte(self):
-        return self / 1_000_000_000_000
-
-    def zettabit(self):
-        return self / 125_000_000_000_000
-
-    def zettabyte(self):
-        return self / 1_000_000_000_000_000
-
-    def yottabit(self):
-        return self / 125_000_000_000_000_000
-
-    def yottabyte(self):
-        return self / 1_000_000_000_000_000_000
+from typing import Any
 
 
-Megabyte("a")
+class Hexdump:
+    def __init__(self, file: str):
+        self.file = file
+
+    def dump(self) -> str:
+        table: str = ''
+
+        with open(self.file, "rb") as stream:
+            line: int = 0
+            buffer: Any = stream.read(16)
+
+            while buffer:
+                s1: str = ' '.join([f"{c:02x}" for c in buffer])
+                s1: str = s1[0:23] + ' ' + s1[23:]
+
+                width: int = 48
+
+                s2: str = ''.join([chr(c) if 32 <= c <= 127 else '.' for c in buffer])
+                table += f"{line * 16:08x}  {s1:<{width}}  |{s2}|\n"
+
+                line += 1
+                buffer: Any = stream.read(16)
+            stream.close()
+
+        return table.strip()
