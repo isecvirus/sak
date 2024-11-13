@@ -22,10 +22,6 @@ SAK (Saudi Army Knife) is a toolKit for pentesters
 
 ---
 
-### 🏆 [ctf](ctf)
-
----
-
 ### 📊 [data](data)
 
 | # |                tool                |                  Use case (example)                  |
