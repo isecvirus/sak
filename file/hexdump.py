@@ -25,8 +25,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-from typing import Any
-
+import re
 
 class Hexdump:
     def __init__(self, file: str):
@@ -37,7 +36,7 @@ class Hexdump:
 
         with open(self.file, "rb") as stream:
             line: int = 0
-            buffer: Any = stream.read(16)
+            buffer: bytes = stream.read(16)
 
             while buffer:
                 s1: str = ' '.join([f"{c:02x}" for c in buffer])
@@ -49,7 +48,19 @@ class Hexdump:
                 table += f"{line * 16:08x}  {s1:<{width}}  |{s2}|\n"
 
                 line += 1
-                buffer: Any = stream.read(16)
+                buffer: bytes = stream.read(16)
             stream.close()
 
         return table.strip()
+
+    def pick(self, dump:str) -> str|bytes:
+        data = b''
+
+        for line in dump.splitlines():
+            line: str = re.sub("^[0-9A-f]+\\W+", repl='', string=line)
+            line: list[str] = re.findall("^([0-9A-f ]+)", line)[0].rstrip(' ').split()
+            chunk: bytes = b''.join([bytes.fromhex(byte) for byte in line])
+
+            data += chunk
+
+        return data

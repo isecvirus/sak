@@ -1,6 +1,13 @@
 # security/__init__.py
 # written by virus
-# v1.0.0
+# v1.1.0
 
-from .cisco import *
-from .password import *
+from .password import Password
+from .cisco import CiscoPassword
+from .otp import OTP
+
+__all__ = [
+    "Password",
+    "CiscoPassword",
+    "OTP",
+]

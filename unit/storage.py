@@ -1,4 +1,4 @@
-# port (v1.1.0)
+# computer (v1.1.0)
 
 """
 Copyright (c) virus, All rights reserved.
@@ -25,12 +25,30 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-class Port:
-    MIN_PORT: int = 1
-    MAX_PORT: int = ((2 ** 16) - 1)
+class Storage:
+    """
+    Usage:
+        storage = Storage(1000, "GB")
+        storage.TB # 1.0
+    """
 
-    def __init__(self):
-        ...
+    units = {
+        "b": 1e0, "B": 1e0 / 8,
+        "Kb": 1e3, "KB": 1e3 / 8,
+        "Mb": 1e6, "MB": 1e6 / 8,
+        "Gb": 1e9, "GB": 1e9 / 8,
+        "Tb": 1e12, "TB": 1e12 / 8,
+        "Pb": 1e15, "PB": 1e15 / 8,
+        "Eb": 1e18, "EB": 1e18 / 8,
+        "Zb": 1e21, "ZB": 1e21 / 8,
+        "Yb": 1e24, "YB": 1e24 / 8
+    }
 
-    def valid(self, port: int):
-        return self.MIN_PORT <= port <= self.MAX_PORT
+    def __init__(self, size: float, unit: str = 'B'):
+        self.size = size
+        self.unit = unit
+
+    def __getattr__(self, unit):
+        if unit in self.units:
+            return self.size * (self.units[self.unit] / self.units[unit])
+        raise AttributeError(f"{unit!r} not supported unit!")

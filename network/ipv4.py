@@ -1,4 +1,4 @@
-# ipv4 (v1.0.0)
+# ipv4 (v1.1.0)
 
 """
 Copyright (c) virus, All rights reserved.
@@ -29,23 +29,28 @@ import re
 
 
 class InvalidIPv4Error(ValueError):
-    pass
+    def __init__(self, address):
+        super().__init__(f"{address!r} isn't a valid IPv4 address")
 
 
 class InvalidRangeError(ValueError):
-    pass
+    def __init__(self, address):
+        super().__init__(f"End-range ip can't be smaller than the start range: {address!r}")
 
 
 class InvalidDecimalError(ValueError):
-    pass
+    def __init__(self, number):
+        super().__init__(f"{number!r} isn't a valid decimal representation of IPv4 address")
 
 
 class InvalidBinaryError(ValueError):
-    pass
+    def __init__(self, binary):
+        super().__init__(f"{binary!r} isn't a valid binary representation of IPv4 address")
 
 
 class InvalidBytesError(ValueError):
-    pass
+    def __init__(self, address):
+        super().__init__(f"The packed IPv4 representation {address!r} isn't valid")
 
 
 class IPv4:
@@ -62,7 +67,7 @@ class IPv4:
         self.address: str = address
 
         if not self.valid():
-            raise InvalidIPv4Error(f"{address!r} isn't a valid IPv4 address")
+            raise InvalidIPv4Error(address)
 
     def valid(self) -> bool:
         return isinstance(self.address, str) and (re.fullmatch(self.REGEX, self.address) is not None)
@@ -123,7 +128,7 @@ class Range:
         self.address: str = address
 
         if not IPv4(address).valid():
-            raise InvalidIPv4Error(f"{address!r} isn't a valid IPv4 address")
+            raise InvalidIPv4Error(address)
 
     def pool(self, end: str) -> list[str]:
         """
@@ -149,7 +154,7 @@ class Network:
         self.address: str = address
 
         if not IPv4(address).valid():
-            raise InvalidIPv4Error(f"{address!r} isn't a valid IPv4 address")
+            raise InvalidIPv4Error(address)
 
     def range(self, cidr: int) -> tuple[str, str]:
         """
@@ -179,7 +184,7 @@ class Network:
         end: int = IPv4(end).decimal()
 
         if not end >= start:
-            raise InvalidRangeError(f"End-range ip can't be smaller than the start range: {self.address}")
+            raise InvalidRangeError(self.address)
 
         cidr: int = 32
         while (start ^ end) >> (IPv4.MAX_CIDR - cidr):
@@ -193,7 +198,7 @@ class Decimal:
         self.number: int = number
 
         if not self.valid():
-            raise InvalidDecimalError(f"{number!r} isn't a valid Decimal representation of IPv4 address")
+            raise InvalidDecimalError(number)
 
     def valid(self) -> bool:
         return IPv4.MIN_IP <= self.number <= IPv4.MAX_IP
@@ -222,8 +227,7 @@ class Binary:
         self.address: list[int] = address
 
         if not self.valid():
-            raise InvalidBinaryError(
-                f"{IPv4.SEP.join(map(str, address))!r} isn't a valid Binary representation of IPv4 address")
+            raise InvalidBinaryError(IPv4.SEP.join(map(str, address)))
 
     def valid(self) -> bool:
         check1: bool = len(self.address) == 4
@@ -248,7 +252,7 @@ class Bytes:
         self.address: bytes = address
 
         if not self.valid():
-            raise InvalidBytesError(f"The IPv4 packed repr {address!r} isn't valid")
+            raise InvalidBytesError(address)
 
     def valid(self) -> bool:
         check1: bool = len(self.address) == 4

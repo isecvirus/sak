@@ -1,4 +1,4 @@
-# cisco (v1.0.0)
+# cisco (v1.1.0)
 
 """
 Copyright (c) virus, All rights reserved.
@@ -30,7 +30,7 @@ import re
 from typing import AnyStr
 
 
-class Password7:
+class CiscoPassword:
     def __init__(self, string: str):
         self.string: str = string
 

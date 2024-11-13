@@ -1,4 +1,4 @@
-# kmz (v1.0.0)
+# kmz ($VERSION)
 
 """
 Copyright (c) virus, All rights reserved.
@@ -30,6 +30,7 @@ import random
 from typing import NoReturn
 from zipfile import ZipFile, ZIP_DEFLATED
 
+VERSION = "1.1.0"
 
 class Point(dict):
     def set_name(self, name: float) -> None:
@@ -56,26 +57,7 @@ class Point(dict):
     def get_z(self) -> float:
         return self['z']
 
-    def get_hash(self):
-        return self
-
-
 class KMZ:
-    """ XML Format
-    <?xml version="1.0" encoding="UTF-8"?>
-    <kml project="kmz" author="virus">
-        <Document>
-            <Placemark id="xxxx-xxxx-xxxx-xxxx-xxxx">
-                <name> ... </name>
-                <Point>
-                    <coordinates>x,y,z</coordinates>
-                </Point>
-            </Placemark>
-            ...
-        </Document>
-    </kml>
-    """
-
     def __init__(self, filename: str):
         self.filename: str = filename
         self.points: {str: Point} = {}
@@ -112,9 +94,9 @@ class KMZ:
 
         # add opening header
         data: str = (
-            '<?xml version="1.0" encoding="UTF-8"?>\n'
-            '<kml project="kmz" author="virus">\n'
-            '<Document>\n'
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+            f"<kml project=\"kmz\" author=\"virus\" version=\"{VERSION}\">"
+            "<Document>"
         )
 
         for point in self.points:
@@ -124,20 +106,15 @@ class KMZ:
             z: float = float(self.points[point].get_z())
 
             # add point to data
-            data += (
-                f'\t<Placemark id="{point}">\n'
-                f'\t\t<name>{name}</name>\n'
-                f'\t\t<Point>\n'
-                f'\t\t\t<coordinates>{x},{y},{z}</coordinates>\n'
-                f'\t\t</Point>\n'
-                f'\t</Placemark>\n'
-            )
+            data += (f"<Placemark id=\"{point}\">"
+                         f"<name>{name}</name>"
+                         f"<Point>"
+                            f"<coordinates>{x},{y},{z}</coordinates>"
+                         f"</Point>"
+                     f"</Placemark>")
 
         # add closing footer
-        data += (
-            '</Document>\n'
-            '</kml>'
-        )
+        data += "</Document></kml>"
 
         return data
 
